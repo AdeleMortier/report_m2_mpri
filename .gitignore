@@ -1,0 +1,12 @@
+*.gz
+*.out
+*.log
+*.blg
+*.bbl
+*.aux
+Fiche de synthèse/*.gz
+Fiche de synthèse/*.out
+Fiche de synthèse/*.log
+Fiche de synthèse/*.blg
+Fiche de synthèse/*.bbl
+Fiche de synthèse/*.aux
