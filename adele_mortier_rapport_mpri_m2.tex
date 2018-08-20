@@ -64,12 +64,12 @@
 	\section*{General Introduction}
 		Dialogue modeling is a subfield of computational linguistics that intends to tackle natural language using a wider perspective. While natural language semantics usually focuses on single sentences, dialogue semantics addresses the problem of long run interactions between several speakers. This crucially requires to define adequate and more sophisticated structures that could keep track of the many aspects of the ongoing dialogue: what has been asserted so far, what questions remain unanswered, what kind of contextual elements are involved etc. Such a fine grained analysis should of course be based on previous work in semantic modeling, but should also adopt a more holistic viewpoint. That is where the use of structures from the field of computer science appears to be beneficial.\\
 		
-		Another challenge beyond information storage and modeling relates to the cognitive processes that underlie real-world, multi-speaker interactions. Indeed, a realistic conversation is seldom totally fluid: people hesitate, do (self-)repair, produce disfluencies or tend to digress. All these phenomena have only been recently taken into account, and seem difficult to model in a systematic, computer-oriented way. We have tried to consider a model for incremental speech processing that could both emulate effective cognitive processes and compute information in a more flexible, reversible way. Applications of this models could be found in modern dialogue management systems, where a human speaker interacts with a on-human entity (for instance the TRAINS project\footnote{\href{https://www.cs.rochester.edu/research/cisd/resources/trains.html}{https://www.cs.rochester.edu/research/cisd/resources/trains.html}}).
+		Another challenge beyond information storage and modeling relates to the cognitive processes that underlie real-world, multi-speaker interactions. Indeed, a realistic conversation is seldom totally fluid: people hesitate, do (self-)repair, produce disfluencies or tend to digress. All these phenomena have only been recently taken into account, and seem difficult to model in a systematic, computer-oriented way. We have tried to consider a model for incremental speech processing that could both emulate effective cognitive processes and compute information in a more flexible, reversible way. Applications of this models could be found in dialogue management systems, where a human speaker interacts with a non-human entity (one of the first attempts was the TRAINS project\footnote{\href{https://www.cs.rochester.edu/research/cisd/resources/trains.html}{https://www.cs.rochester.edu/research/cisd/resources/trains.html}}, and more recently of course Amazon Alexa, the Google Assistant etc.).
 		
 	\section{The nature of dialogue}
 		We begin by a brief review of the notion of dialogue. What is a dialogue? The notion seems to be rather straightforward in the sense that it is deeply rooted in our use of language. We learn a language by listening to dialogues, and dialogue is our principal means of expression, leaving aside the literary language that we use in written communication, for instance in this report. However, the knowledge that we have about dialogue \textit{instances} is not a knowledge about dialogue in itself. Here we will try to clarify what we mean by dialogue; we will introduce its main features through corpus examples\footnote{we have used for this purpose the Santa Barbara corpus of spoken American English \cite{dubois2000}, which is based on a large body of recordings of naturally occurring spoken interaction from all over the United States. The Santa Barbara Corpus represents a wide variety of people of different regional origins, ages, occupations, genders, and ethnic and social backgrounds. The predominant form of language use represented is face-to-face conversation (source: \href{http://www.linguistics.ucsb.edu/research/santa-barbara-corpus}{http://www.linguistics.ucsb.edu/research/santa-barbara-corpus}). Each excerpt we picked goes with the name of the file it comes from within the corpus. A more precise description of the context is given for each file in the webpage previously mentioned.}; and we will give a sketch of the underlying linguistic background (syntax, semantics).
 		\subsection{What is dialogue? First explanations and examples}
-			The word dialogue is opposed to monologue; indeed, a dialogue most evidently involves two or more participants that are supposed to speak in turn.\\
+			The word dialogue is opposed to monologue; indeed, a dialogue most evidently involves two or more participants that are supposed to speak in turn\footnote{the notion of turn-taking is not very problematic when the number of participants is limited (typically $2$); however, with multi-party conversation it becomes a crucial issue. So the partition between \textit{mono} and \textit{dia} is maybe a bit reductive.}.\\
 			
 			In Table \ref{tab:dial_turn_taking} for instance, the dialogue involves three speakers, who perform $2$ speech acts each. But of course, the boundaries between speech acts are not always clear, when people tend to interrupt each other, or simply when the turn-taking is triggered in the middle of an utterance \footnote{as we can see in the first intervention of LYNNE}. Thus, a dialogue is not necessarily sequential, and does not necessarily include well formed sentences. It involves a kind of concurrency between the participants.
 			
@@ -85,9 +85,9 @@
 			\end{sbcquote}
 
 
-			Besides its superficial structure, a dialogue is also a series of motivated acts: if we talk to each other, it is not usually for the sake of talking. We speak, because we share a common goal; we want to exchange informations. The participants usually share a certain amount of information, which is considered as the common ground (for instance, that the earth is flat, that human beings live about a hundred years...). But they also have personal ideas they can share using informative sentences \footnote{most of the time, the notion coincides with declarative sentences}. Conversely, information can consists of queries using inquisitive sentences \footnote{most of the time, the notion coincides with interrogative sentences}.\\
+			Besides its superficial structure, a dialogue is also a series of motivated acts: if we talk to each other, it is not usually for the sake of talking. We speak, because most of the time we want to exchange information. The participants usually share a certain amount of that information, which is considered as the \textit{common ground} (for instance, that the earth is flat, that human beings live about a hundred years...). But they also have personal ideas they can share using informative sentences \footnote{some of the time, the notion coincides with declarative sentences}. Conversely, information can consists of queries using inquisitive sentences \footnote{some of the time, the notion coincides with interrogative sentences}.\\
 			
-			All these actions, all these speech acts, have a direct influence on the common ground, that is continuously updated during the interaction. Conversation is hence a continuous effort of coordination between the participants that try to align themselves to the common ground in real time \cite{poesio1997, eshghi2015}. This is crucial for the dialogue not to turn into a monologue.\\
+			All these actions, all these speech acts, have a direct influence on the common ground, that is continuously updated during the interaction. Conversation is hence a continuous effort of coordination between the participants that try to align themselves to the common ground in real time \cite{poesio1997, eshghi2015}. This is essential, because this ensures that the conversation remains coherent and useful for both participants.\\
 
 			An example of such a coordination mechanism is given in Table \ref{tab:dial_grounding}. First, the fact that ``he'' is a nice guy should be added to the common ground (we assume implicit acknowledgement). After that, the fact that Ron wonders whether ``he'' teaches in schools should be tracked in some way. Then, the fact that ``he'' is not married and gives private lessons and orchestras should be grounded as well (here the acknowledgement is made explicit).\\
 			
@@ -154,7 +154,7 @@
 					The pen$_{area?, tool?}$ is in the box \\
 					The box is in the pen$_area$
 				\end{center}
-				In the first sentence, the ambiguity regarding the meaning of ``pen'' remains until the end of the sentence. Yet we are able to understand this sentence quite rapidly, most often without backtracking. This kind of phenomenon advocates for the fact that we do not actually process all the possible alternatives in parallel and ``prune the tree'' afterwards. We rather keep in mind and underspecified version of the lexeme (here, ``pen''), and enrich only when we get additional informations about the most probable meaning (here, the word ``box'' allows to opt for pen$_tool$). Thus as we will see, underspecification is a strong desideratum of incrementality.\\
+				In the first sentence, the ambiguity regarding the meaning of ``pen'' remains until the end of the sentence. Yet we are able to understand this sentence quite rapidly, most often without backtracking. This kind of phenomenon advocates for the fact that we do not actually process all the possible alternatives in parallel and ``prune the tree'' afterwards. We rather keep in mind and underspecified version of the lexeme (here, ``pen''), and enrich only when we get additional information about the most probable meaning (here, the word ``box'' allows to opt for pen$_tool$). Thus as we will see, underspecification is a strong desideratum of incrementality.\\
 				
 				
 				
@@ -227,7 +227,7 @@
 					\item truth values of type \texttt{t} [base case];\vspace{-2mm}
 					\item functions from entities (type \texttt{e}) to semantic expressions [inductive case].
 				\end{itemize} 
-				The ``merge'' operation that is used to create the syntactic tree is also mapped to a particular operation in the semantic domain, which is, in the most simple framework, functional application. Note that the last merge operation must generate a term of type t, because -- in truth-conditional semantics at least -- sentences must have a certain truth value.
+				The ``merge'' operation that is used to create the syntactic tree is also mapped to a particular operation in the semantic domain, which is, in the most simple framework, functional application. Note that the last merge operation must generate a term of type \texttt{t}, because -- in truth-conditional semantics at least -- sentences must have a certain truth value.
 				\begin{figure}[h]
 					\Tree
 					[.{\textbf{likes}(\textbf{apples}, \textbf{John}) : t} [.{\textbf{John} : e} John ] [.{$\lambda$ x. \textbf{likes}(\textbf{apples}, x) : e $\rightarrow$ t} [.{$\lambda$ y $\lambda$ x. \textbf{likes}(y, x) : e $\rightarrow$ e $\rightarrow$ t} likes ] [.{\textbf{apples} : e} apples ] ] ]
@@ -240,19 +240,17 @@
 					Universal reading : $[\forall x : \textbf{man}(x)] ( [\exists y : \textbf{woman}(y)] (\textbf{love}(x, y)))$\\
 					Existential reading : $[\exists y : \textbf{woman}(y)]([\forall x : \textbf{man}(x)](\textbf{love}(x, y)))$
 				\end{center}
-				
-				
-				As we will see later on (in Section \ref{RMRS} in particular), this can be ``resolved'' -- or at least, accounted for -- through underspecification
+				As we will see later on (in Section \ref{RMRS} in particular), this can be ``resolved'' -- or at least, accounted for -- through underspecification. More generally, we will see that this traditional semantic approach is not sufficient to deal with dialogue because it does not integrate all the information available (for instance, visual information, event-based information).
 
 	\section{A model for dialogue}\label{dialogue_model}
-		We present here a framework for dialogue modeling, that unifies and brings together ideas from various schools of thought in formal semantics. The core of the theory is strongly inspired by Head-driven Phrase Structure Grammar (HPSG) \cite{sag2003} and Type Theory with Records (TTR) \cite{betarte98, cooper2005}. For the purpose of \textit{dialogue} modeling, elements of situation semantics \cite{barwise1998} are also taken into account.
+		We present here a framework for dialogue modeling, that unifies and brings together ideas from various schools of thought in formal semantics. It should be considered as an additional layer with respect to usual linguistic categories. The core of the theory is strongly inspired by Head-driven Phrase Structure Grammar (HPSG) \cite{sag2003} and Type Theory with Records (TTR) \cite{betarte1998, cooper2005}. For the purpose of \textit{dialogue} modeling, elements of situation semantics \cite{barwise1998} are also taken into account.
 		
 		
 		%Finally, the incremental aspects of syntactic and semantic processing are taken from existing probabilistic parsing methods \cite{ytrestol2011,sagae2007,miyao2008} and dynamic semantics \cite{kamp2011,hough2017,milward1994}. The aim of this approach is to provide a realistic, fine-grained account of multiple language phenomena that occur during everyday dialogues. Thus, emphasis will be placed on incrementality and interactions between speaker and listener, through clarification, repair, acknowledgement, contradiction. 
 
 		\subsection{Type theory with records and HPSG}
 			\subsubsection{Type theory with record (TTR)}
-				Our framework for dialogue modeling is based on Type Theory with Records (TTR) \cite{betarte98}, which allows to use relatively elaborate data structures whose general form is :
+				Our framework for dialogue modeling is based on Type Theory with Records (TTR) \cite{betarte1998, cooper2005, cooper2015}, which allows to use relatively elaborate data structures whose general form is :
 				\begin{eqnarray}
 					R = \left[
 					\begin{array}{l l l}
@@ -342,14 +340,14 @@
 				\end{itemize}
 				Like HPSG entries, HPSG rules are modeled as records with two fields (one for the input, one for the output). This formulation will be used later to model conversational rules in Section \ref{conversational_rules}.\\
 				
-				HPSG \textit{per se} is not totally well suited for incremental processing, however we will see that existing meta-languages (especially MRS, see Section \ref{RMRS}) or variants of this formalism (SBCG \cite{sag2015}...) allow for more flexibility, in particular with respect to underspecification.
+				HPSG \textit{per se} is not totally well suited for incremental processing, however we will see that existing meta-languages (especially MRS, see Section \ref{RMRS}) or variants of this formalism (for instance SBCG \cite{sag2015}...) allow for more flexibility, in particular with respect to underspecification.
 			
 		\subsection{Situation semantics}
-			Situation semantics is a framework that has been developed by Jon Barwise and John Perry in the 90's \cite{barwise1998}, and which takes ideas from the Austinean theory of truth and speech acts. For Austin, ``A statement is made and its making is an historic event, the utterance by a certain speaker or writer of certain words (a sentence) to an audience with reference to an historic situation, event or what not.''. For a statement to be true, the \textit{descriptive conventions} (that assign situation types to words) must be correlated with the \textit{demonstrative conventions} (that assign to each statement some ``historic'' situations in the world).\\
+			Situation semantics is a framework that has been developed by Jon Barwise and John Perry in the 1980s \cite{barwise1981, barwise1998}, and which takes ideas from the Austinean theory of truth and speech acts. For Austin, ``A statement is made and its making is an historic event, the utterance by a certain speaker or writer of certain words (a sentence) to an audience with reference to an historic situation, event or what not.''. For a statement to be true, the \textit{descriptive conventions} (that assign situation types to words) must be correlated with the \textit{demonstrative conventions} (that assign to each statement some ``historic'' situations in the world).\\
 			
 			This idea that truth is a relation between situations and situation types has been picked up by Barwise and Perry in more formal terms. A good introductory account of this can be found in \cite{stojanovic2011}. Situation semantics, unlike the various derivatives of fregean semantics, focuses on the notion of \textit{situation} (and not truth values, or ``Sinn''...). Truth and falsity are just treated as side-effects of the theory.\\
 			
-			So, in situation semantics, the meaning of an utterance is not equivalent to its truth conditions, it is rather seen as a relation between situations: the situation related to the speech act, and the situation related to what is said. A situation can then be seen as an underspecified world (in the sense of possible world semantics), where some constraints are met, but some other properties remain unknown. Situations can easily be modeled as records. For instance, a situation where John loves Mary could be modeled as:
+			So, in situation semantics, the meaning of an utterance is not equivalent to its truth conditions, it is rather seen as a relation between situations: the situation related to the speech act, and the situation related to what is said. A situation can then be seen as an underspecified world (in the sense of possible world semantics), where some constraints are met, but some other properties remain unknown. Situations can easily be modeled as records. For instance, a situation where John loves Mary could be described by the record type:
 			\begin{equation*}
 				\begin{recenv}
 					j &:& \texttt{Ind} \\
@@ -529,7 +527,7 @@
 		\subsection{Incremental RMRS}\label{RMRS}
 			Minimal Recursion Semantics \cite{copestake2005} is a model that is characterized by a flat semantics, whose central element is the elementary prediction (EP). As we will see, an utterance (type \texttt{Utt}) is modeled as a bag of predications, a top and a local top handle, and a list of constraints (cf. Figure \ref{fig:mrs_types}).
 			\subsubsection{Predications}
-				Predications are handle-predicate pairs. Handles (in that situation they are also called \textit{labels}) are indices that allow to keep track of the original tree structure on which the MRS has been built\footnote{thus this structure is obtained after syntactic parsing}. They denote node addresses in the original tree; and if two EPs have the same handle, they must be conjuncted. Predicates can have two kinds of possible arguments:
+				Predications are handle-predicate pairs. Handles (in that situation they are also called \textit{labels}) are indices that allow to keep track of the original tree structure on which the MRS has been built\footnote{thus this structure is obtained after syntactic parsing}. They denote node addresses in the original tree; and if two EPs have the same handle, they must be conjoined. Predicates can have two kinds of possible arguments:
 				\begin{itemize}
 					\item ordinary variables like x, y, z... modeled as a list of elements of primary type \texttt{Var}; \vspace{-2mm}
 					\item handles that refer to the EP's daughters in the underlying tree. Handles seen as arguments (also called \textit{holes}) thus reify the branches of the tree and flatten the structure (predicates no longer apply to other predicates...). Holes are naturally modeled as a list of handles (of type \texttt{Handle}).
@@ -628,153 +626,167 @@
 				\end{itemize}
 			\end{itemize}
 			This ensures that all the labels in Q are present in the output with the right type (the one specified in Q), and thus that the output record type is a subtype of Q (see Appendix \ref{proof_wedge} for details). This also means that the update operation creates monotonic refinements of the initial DGB.
-		\subsection{Question}
-			\cite{ginzburg2017}
-			question q should not be resolvable with facts
-			\begin{equation*}
-				\begin{recenv}
-					Pre &=& \begin{recenv}
-						QUD = Q &:& \\
-						Moves = Ask(spkr, addr, q) :: M &:& IllocProp
-					\end{recenv}\\
-					Post &=& \begin{recenv}
-						QUD = q :: Q &:& \\ 
-					\end{recenv}
-				\end{recenv}
-			\end{equation*}
-		\subsection{Assertion}
-			\begin{equation*}
-				\begin{recenv}
-					Pre  &=& \begin{recenv}
-					QUD = Q &:& \\
-						Moves = Assert(spkr, addr, p) :: M &:& IllocProp
-					\end{recenv}\\
-					Post &=& \begin{recenv}
-						QUD = p? :: Q &:& 
-					\end{recenv}
-				\end{recenv}
-			\end{equation*}
-		% p? = {p, neg p}
-		\subsection{Acknowledgement}
-			Acknowledgement may be triggered when one speaker approves what the other speaker has just said or was about to say. In the last case, the approver has been able to mentally complete what has been said orally by the other speaker. Moreover, the fact that is acknowledged must be consistent with the other facts the approver believes in. It may or may not be part of the approver's initial  beliefs.
+		\subsection{Rules}
+			\subsection{Question}
+				The question-update is one of the most simple update rules. It has already been presented in \cite{ginzburg2012, ginzburg2017}. The idea is that, if the last Move has been identified as a ``Ask'' speech act whose content is a question $q$ which is not resolvable by the speaker (on the basis of his personal assumptions), then the question $q$ becomes the topical question of the conversation. The only distinction we make with respect to the previous models is that we assume the speaker \textit{alone} is not able to resolve the question. Conversely, the addressee may know a Fact that could solve it. 
+				\begin{figure*}[h]
+					\begin{equation*}
+						\begin{recenv}
+							\mbox{Pre} &=& \begin{recenv}
+								\mbox{QUD} = Q &:& \texttt{Poset}(\texttt{Question})\\
+								\mbox{Moves} = Ask(spkr, addr, q) :: M &:& \texttt{List}(\texttt{LocProp})\\
+								\mbox{Relevance-cond} &:& \neg resolve(Facts.spkr, q) 
+							\end{recenv} \vspace{2mm}\\
+							\mbox{Post} &=& \begin{recenv}
+								\mbox{QUD} = q :: Q &:& \texttt{Poset}(\texttt{Question})\\ 
+							\end{recenv}
+						\end{recenv}
+					\end{equation*}
+					\caption{Question update}
+				\end{figure*}
+				In this rule, we used a dependent type $resolve$. 
+			\subsection{Assertion}
+				The assertion-update rule is almost as simple as the question-update, and also very similar. Indeed, asserting something is -- from a more pragmatic point of view -- equivalent to raise the issue of whether this thing is true or not. The assertion rule thus says that, if the last Move has been identified as an ``Assert'' speech act whose content is $p$, where $p$ is a proposition that can be deduced from a fact $p'$ that belongs to the speaker's beliefs, then the issue of whether $p$ becomes the topical question under discussion.\\
+				\begin{figure*}[h]
+					\begin{equation*}
+						\begin{recenv}
+							\mbox{Pre}  &=& \begin{recenv}
+								\mbox{QUD} = Q &:& \texttt{Poset}(\texttt{Question})\\
+								\mbox{Moves} = Assert(spkr, addr, p) :: M &:& \texttt{List}(\texttt{LocProp})\\
+								H &:& \texttt{Set}(\texttt{Prop}) \\
+								\mbox{Justification-cond} &:& subset(H, Facts.spkr) \\
+								\mbox{Quality-cond} &:& deduced(p, Facts.spkr, H) \\
+							\end{recenv} \vspace{2mm} \\
+							\mbox{Post} &=& \begin{recenv}
+								\mbox{QUD} = ?p :: Q &:& \texttt{Poset}(\texttt{Question})
+							\end{recenv}
+						\end{recenv}
+					\end{equation*}
+					\caption{Assertion update}
+				\end{figure*}
+				
+				Here, we used three external operators: $deduced$, $subset$ and $?$. The fact $p$ is deduced from a set of Facts $F$ with evidence $H$ ($deduced(p, F, H)$) iff $H$ a the minimal subset of $F$ that allows to derive $p$\footnote{note that if $p$ is already in $F$, then $H=p$ is an obvious witness for the $deduced$ relation}. $H$ being a subset of $F$ complies with Grice's maxim of quality, while $H$ being minimal complies with Grice's maxim of manner. The notation $subset$ is quite evident. 
 
-			\begin{sbcquote}{SBC031}
-				BETH:&	... But,\\
-				&you know,\\
-				&... like,\\
-				&... she know=s,\\
-				&so much about it.\\
-				&You know?\\
-				&... I said probably that one day the --\\
-				&... The teacher and you both just had a bad day,\\
-				&and it came off $<$X on X$>$.\\
-				SHERRY:&	... Yeah.\\
-			\end{sbcquote}
-			%sbc031
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Facts = F\\
-			QUD = Q' :: p? :: Q &:& \\
-			Moves = Ack(spkr, addr, p) :: M &:& IllocProp
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			Facts = p :: F\\
-			QUD = resolve(Q' :: Q, p) &:& 
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-		\subsection{Contradiction} \label{contradiction}
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Facts = F\\
-			QUD = Q' :: p? :: Q &:& \\
-			Moves = Assert(spkr, addr, not(p)) :: M &:& IllocProp
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			QUD = Q' :: not(p)? :: Q &:& 
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-			
-		\subsection{Grounding}
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Moves = M &:& List(LocProp) \\
-			Pending = p :: P &:& List(LocProp)\\
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			Moves = p :: M &:& List(LocProp)\\
-			Pending = P &:& List(LocProp)
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-		\subsection{Clarification request}
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Moves = M &:& List(LocProp) \\
-			Pending = p :: P &:& List(LocProp)\\
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			Moves = Ask(spkr, addr, CQ(p)) :: M &:& List(LocProp)\\
-			Pending = p :: P &:& List(LocProp)
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-			$CQ$ is a function from assertive propositions to questions. It focuses on one element of the proposition (an entity, or a predicate) and asks about this element. Therefore, it complies with the so-called Reprise Content Hypothesis:
-			\begin{center}
-				A fragment reprise question queries exactly the standard semantic content of the fragment being reprised.
-			\end{center}
-			Basically, CQ will p abstract over a variable or a predicate. For example:
-			
-			\begin{sbcquote}{SBC042}
-				CURT:&	... Do you remember the uh,\\
-				&... X program on TV,\\
-				&.. about hunter virus,\\
-				KITTY:&	... About what virus?\\
-				CURT:&	.. Hunter virus,\\
-				KITTY:&	... Hutter.\\
-				&... What's that about.\\
-				&I don't re- I don't remember.\\
-			\end{sbcquote}
-		\subsection{Self Repair}
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Pending = p :: P &:& List(LocProp)\\
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			Pending = repair(p) :: P &:& List(LocProp)
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-			\begin{sbcquote}{SBC022}
-				LANCE:&	For the most part,\\
-				&... I mean I was able to k- --\\
-				&I think I was able to keep up with that stuff,\\
-				RANDY:&	With the ARTS.\\
-				LANCE:&	.. Yeah.\\
-			\end{sbcquote}
-
-		\subsection{Cooperation}
-			\begin{equation*}
-			\begin{recenv}
-			Pre  &=& \begin{recenv}
-			Speaker = i\\
-			Addressee = j\\
-			Pending = p :: P &:& List(LocProp)\\
-			\end{recenv}\\
-			Post &=& \begin{recenv}
-			Speaker = j\\
-			Addressee = i\\
-			Pending = predict_j(p) :: P &:& List(LocProp)
-			\end{recenv}
-			\end{recenv}
-			\end{equation*}
-		\subsection{Ellipsis}
+			\subsection{Acknowledgement}
+				Acknowledgement may be triggered when one speaker approves what the other speaker has just said or was about to say. In the last case, the approver has been able to mentally complete what has been said orally by the other speaker. Moreover, the fact that is acknowledged must be consistent with the other facts the approver believes in. It may or may not be part of the approver's initial  beliefs.
+	
+				\begin{sbcquote}{SBC031}
+					BETH:&	... But,\\
+					&you know,\\
+					&... like,\\
+					&... she know=s,\\
+					&so much about it.\\
+					&You know?\\
+					&... I said probably that one day the --\\
+					&... The teacher and you both just had a bad day,\\
+					&and it came off $<$X on X$>$.\\
+					SHERRY:&	... Yeah.\\
+				\end{sbcquote}
+				%sbc031
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Facts = F\\
+				QUD = Q' :: p? :: Q &:& \\
+				Moves = Ack(spkr, addr, p) :: M &:& IllocProp
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				Facts = p :: F\\
+				QUD = resolve(Q' :: Q, p) &:& 
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+			\subsection{Contradiction} \label{contradiction}
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Facts = F\\
+				QUD = Q' :: p? :: Q &:& \\
+				Moves = Assert(spkr, addr, not(p)) :: M &:& IllocProp
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				QUD = Q' :: not(p)? :: Q &:& 
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+				
+			\subsection{Grounding}
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Moves = M &:& List(LocProp) \\
+				Pending = p :: P &:& List(LocProp)\\
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				Moves = p :: M &:& List(LocProp)\\
+				Pending = P &:& List(LocProp)
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+			\subsection{Clarification request}
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Moves = M &:& List(LocProp) \\
+				Pending = p :: P &:& List(LocProp)\\
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				Moves = Ask(spkr, addr, CQ(p)) :: M &:& List(LocProp)\\
+				Pending = p :: P &:& List(LocProp)
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+				$CQ$ is a function from assertive propositions to questions. It focuses on one element of the proposition (an entity, or a predicate) and asks about this element. Therefore, it complies with the so-called Reprise Content Hypothesis:
+				\begin{center}
+					A fragment reprise question queries exactly the standard semantic content of the fragment being reprised.
+				\end{center}
+				Basically, CQ will p abstract over a variable or a predicate. For example:
+				
+				\begin{sbcquote}{SBC042}
+					CURT:&	... Do you remember the uh,\\
+					&... X program on TV,\\
+					&.. about hunter virus,\\
+					KITTY:&	... About what virus?\\
+					CURT:&	.. Hunter virus,\\
+					KITTY:&	... Hutter.\\
+					&... What's that about.\\
+					&I don't re- I don't remember.\\
+				\end{sbcquote}
+			\subsection{Self Repair}
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Pending = p :: P &:& List(LocProp)\\
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				Pending = repair(p) :: P &:& List(LocProp)
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+				\begin{sbcquote}{SBC022}
+					LANCE:&	For the most part,\\
+					&... I mean I was able to k- --\\
+					&I think I was able to keep up with that stuff,\\
+					RANDY:&	With the ARTS.\\
+					LANCE:&	.. Yeah.\\
+				\end{sbcquote}
+	
+			\subsection{Cooperation}
+				\begin{equation*}
+				\begin{recenv}
+				Pre  &=& \begin{recenv}
+				Speaker = i\\
+				Addressee = j\\
+				Pending = p :: P &:& List(LocProp)\\
+				\end{recenv}\\
+				Post &=& \begin{recenv}
+				Speaker = j\\
+				Addressee = i\\
+				Pending = predict_j(p) :: P &:& List(LocProp)
+				\end{recenv}
+				\end{recenv}
+				\end{equation*}
+			\subsection{Ellipsis}
 
 
 
