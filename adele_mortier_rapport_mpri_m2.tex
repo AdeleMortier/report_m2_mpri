@@ -50,14 +50,17 @@
 
 
 \begin{document}
-	\title{Incremental dialogue modeling}
+	\title{Incremental dialogue modeling -- internship report}
 	\author{\begin{tabular}{rcl}
-			Author &:& Adèle Mortier \\
-		Supervisor &:& Jonathan Ginzburg\\
-		Lab &:& LLF Paris 7
+			Auteure &:& Adèle Mortier \\
+			Encadrant &:& Jonathan Ginzburg\\
+			Laboratoire &:& LLF Paris 7
 		\end{tabular}
-		}
+	}
 	\maketitle
+	
+	
+
 	\section*{General Introduction}
 		Dialogue modeling is a subfield of computational linguistics that intends to tackle natural language using a wider perspective. While natural language semantics usually focuses on single sentences, dialogue semantics addresses the problem of long run interactions between several speakers. This crucially requires to define adequate and more sophisticated structures that could keep track of the many aspects of the ongoing dialogue: what has been asserted so far, what questions remain unanswered, what kind of contextual elements are involved etc. Such a fine grained analysis should of course be based on previous work in semantic modeling, but should also adopt a more holistic viewpoint. That is where the use of structures from the field of computer science appears to be beneficial.\\
 		
@@ -125,8 +128,8 @@
 
 			Therefore, dialogue has a specific structure that relies on turn-taking, and involves complex exchange of informations. In our study, we will thus assume some simplifications :
 			\begin{itemize}
-				\item we will focus on \textit{oral dialogue} (as opposed to the written dialogues that can be found on forums etc.);
-				\item we will only consider \textit{two speakers};
+				\item we will focus on \textit{oral dialogue} (as opposed to the written dialogues that can be found on forums etc.); \vspace{-2mm}
+				\item we will only consider \textit{two speakers}; \vspace{-2mm}
 				\item we will not deal with simultaneous utterances, only \textit{sequential} ones.
 			\end{itemize}
 			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,8 +168,8 @@
 				
 				Second, an incremental system should be able to converse with the user more efficiently, \textit{i.e.} avoid useless explanations or conversational dead-ends. A perfect incremental system should indeed process the maximal amount of information at each step (in a word-by-word basis), including for instance anaphora resolution. This feature, called \textit{strong incremental interpretation} is notably pointed out by \cite{hough2015}, after \cite{milward1991}.  An even more desirable system should be in a position to predict with a relatively high confidence what will come \textit{next}. Such an advanced ability would allow for ellipsis, sentence completion and ``just-in-time'' correction; more precisely, this could be used to:
 				\begin{itemize}
-					\item show early agreement, and thus possibly avoid further unnecessary explanations (cf. Table \ref{tab:dial_sent_compl2});
-				 	\item underline an inconsistency to trigger justifications or self-correction, thus avoiding a propagation of the mistake (cf. Table \ref{tab:dial_echoing_corr});
+					\item show early agreement, and thus possibly avoid further unnecessary explanations (cf. Table \ref{tab:dial_sent_compl2}); \vspace{-2mm}
+				 	\item underline an inconsistency to trigger justifications or self-correction, thus avoiding a propagation of the mistake (cf. Table \ref{tab:dial_echoing_corr}); \vspace{-2mm}
 				 	\item complete a sentence when its meaning appears sufficiently predictable, and thus save the speaker's time and effort (cf. Table \ref{tab:dial_sent_compl2} and Table \ref{tab:dial_sent_compl1}).
 				\end{itemize}
 				
@@ -221,7 +224,7 @@
 				
 				Thus, the computation of the semantics of a sentence amounts to decorating the syntactic tree with semantic expressions. Semantic expressions are basically:
 				\begin{itemize}
-					\item truth values of type \texttt{t} [base case];
+					\item truth values of type \texttt{t} [base case];\vspace{-2mm}
 					\item functions from entities (type \texttt{e}) to semantic expressions [inductive case].
 				\end{itemize} 
 				The ``merge'' operation that is used to create the syntactic tree is also mapped to a particular operation in the semantic domain, which is, in the most simple framework, functional application. Note that the last merge operation must generate a term of type t, because -- in truth-conditional semantics at least -- sentences must have a certain truth value.
@@ -288,7 +291,7 @@
 				\end{equation*}
 				Where:
 				\begin{itemize}
-					\item $labels(X)$ is the set of labels that are present ix $X$, $X$ being a record or a record type;
+					\item $labels(X)$ is the set of labels that are present ix $X$, $X$ being a record or a record type;\vspace{-2mm}
 					\item $R.l$ is the value of the field labeled by $l$ in the record $R$. This is a classic ``path'' notation.
 				\end{itemize}
 				This more permissive typing allows in fact for subtyping and polymorphism \cite{cooper2005}.\\
@@ -309,7 +312,7 @@
 									\begin{recenv}
 										verb && \\
 										PRED && -\\
-										INF && /-\\
+										INF && /\footnote-\\
 										AUX && /-\\
 										POL && -\\
 									\end{recenv}
@@ -329,11 +332,12 @@
 					\caption{Example of an HPSG entry (feature structure) for a verb \cite{sag2003}}
 					\label{fig:hpsg_verb_entry}
 				\end{figure}
+				\footnotetext{the symbol ``/'' is used in HPSG to indicate that a certain specification is ``defeasible'' in the sens that it can be overridden by a conflicting specification \cite{sag2003}.}
 				
 				HPSG is a constraint-based approach, which thus involve unification processes. In brief, three kinds of syntactic rules apply to HPSG feature structures:
 				\begin{itemize}
-					\item phrase-structural schemata (inheritance relationships);
-					\item feature percolation principles (related to headedness, syntactic merge and unification);
+					\item phrase-structural schemata (inheritance relationships);\vspace{-2mm}
+					\item feature percolation principles (related to headedness, syntactic merge and unification);\vspace{-2mm}
 					\item principles accounting for major syntactic phenomena (binding theory...).
 				\end{itemize}
 				Like HPSG entries, HPSG rules are modeled as records with two fields (one for the input, one for the output). This formulation will be used later to model conversational rules in Section \ref{conversational_rules}.\\
@@ -341,11 +345,11 @@
 				HPSG \textit{per se} is not totally well suited for incremental processing, however we will see that existing meta-languages (especially MRS, see Section \ref{RMRS}) or variants of this formalism (SBCG \cite{sag2015}...) allow for more flexibility, in particular with respect to underspecification.
 			
 		\subsection{Situation semantics}
-			Situation semantics is a framework that has been developed by Jon Barwise and John Perry in the 90's \cite{barwise1998}, and which takes ideas from the austinean theory of truth and speech acts. For Austin, ``A statement is made and its making is an historic event, the utterance by a certain speaker or writer of certain words (a sentence) to an audience with reference to an historic situation, event or what not.''. For a statement to be true, the \textit{descriptive conventions} (that assign situation types to words) must be correlated with the \textit{demonstrative conventions} (that assign to each statement some ``historic'' situations in the world).\\
+			Situation semantics is a framework that has been developed by Jon Barwise and John Perry in the 90's \cite{barwise1998}, and which takes ideas from the Austinean theory of truth and speech acts. For Austin, ``A statement is made and its making is an historic event, the utterance by a certain speaker or writer of certain words (a sentence) to an audience with reference to an historic situation, event or what not.''. For a statement to be true, the \textit{descriptive conventions} (that assign situation types to words) must be correlated with the \textit{demonstrative conventions} (that assign to each statement some ``historic'' situations in the world).\\
 			
-			This idea that truth is a relation between situations and situation types has been picked up by Barwise and Perry in more formal terms. A good introductory account of this can be found in \cite{stojanovic2011}. Situation semantics, unlike the various derivatives of fregean semantics, focuses on the notion of \textit{situation} (and not truth values, or ``Sinn''). Truth and falsity are just treated as side-effects of the theory.\\
+			This idea that truth is a relation between situations and situation types has been picked up by Barwise and Perry in more formal terms. A good introductory account of this can be found in \cite{stojanovic2011}. Situation semantics, unlike the various derivatives of fregean semantics, focuses on the notion of \textit{situation} (and not truth values, or ``Sinn''...). Truth and falsity are just treated as side-effects of the theory.\\
 			
-			So, in situation semantics, the meaning of an utterance is not equivalent to its truth conditions, it is rather seen as a relation between situations: the situation related to the speech act, and the situation related to what is said. A situation can be seen as an underspecified world (in the sense of possible world semantics), where some constraints are met, but some other properties remain unknown. Situations can easily be modeled as records. For instance, a situation where John loves Mary could be modeled as:
+			So, in situation semantics, the meaning of an utterance is not equivalent to its truth conditions, it is rather seen as a relation between situations: the situation related to the speech act, and the situation related to what is said. A situation can then be seen as an underspecified world (in the sense of possible world semantics), where some constraints are met, but some other properties remain unknown. Situations can easily be modeled as records. For instance, a situation where John loves Mary could be modeled as:
 			\begin{equation*}
 				\begin{recenv}
 					j &:& \texttt{Ind} \\
@@ -383,126 +387,120 @@
 			
 		\subsection{Dialogue GameBoards}
 			The formal features of dialogue are highly inspired from \cite{ginzburg2012,ginzburg2017}, although some of them are slightly modified.
-			Records and record types will be used to model the various features of a dialogue, pragmatic ones (who speaks, who listens), ontological ones (what do the participants know), semantic ones (what has been said, under which modality), syntactic ones (how things are said, following which grammar rules), lexical ones (which words have been used), and phonetic ones (which sound have been pronounced). This is summarized in the following record type, called a Dialogue Game Board (DGB) Type:
+			Records and record types will be used to model the various (sometimes heterogeneous) features of a dialogue:
+			\begin{itemize}
+				\item turn (who speaks and who listens); \vspace{-2mm}
+				\item ``doxastic'' states (facts people believe); \vspace{-2mm}
+				\item environment (in particular visual informations); \vspace{-2mm}
+				\item questions under discussion (issues raised by the dialogue so far); \vspace{-2mm}
+				\item moves (dialogue ``history''); \vspace{-2mm}
+				\item pending utterance (what is being said but not grounded).
+			\end{itemize}
+			This is summarized in the following record type, called a Dialogue Game Board (DGB) Type:
 			\begin{equation*}
 				\texttt{DGBType} =
 				\left[
 				\begin{array}{l l l}
 				\mbox{Speaker}  &:& \texttt{Ind} \\
 				\mbox{Addressee} &:& \texttt{Ind} \\
-				\mbox{Facts} &:& \texttt{Set}(\texttt{Prop}) \\
+				\mbox{Facts} &:& \langle \texttt{Set}(\texttt{Prop}), \texttt{Set}(\texttt{Prop}) \rangle \\
 				\mbox{Visual} &:& \texttt{Situation} \\
-				\mbox{QUD}  &:& Poset(Questions)\\
+				\mbox{QUD}  &:& \texttt{Poset}(\texttt{Questions})\\
 				\mbox{Moves}  &:& \texttt{List}(\texttt{LocProp})\\
 				\mbox{Pending} &:& \texttt{List}(\texttt{LocProp})
 				\end{array}
 				\right ]
 				\label{dgb_type}
 			\end{equation*}
-			There is one DGB per participant, that is why DGB involve ``private content'' indicated by an asterisk. In the following subsections we will go over the details of the different types introduced in \texttt{DGBType} : the \texttt{IllocProp} type, the \texttt{SemRec} type and  the \texttt{Clause} type.
-			\subsubsection{The \texttt{IllocProp} type}
-				The field Moves is a historic of the speech acts that have been grounded. This field  has been introduced by Ginzburg (see for instance \cite{ginzburg2020}) and its content relates to austinian semantics. Indeed, the objects of type \texttt{IllocProp} that are listed in this field are of the form:
+			In the following subsections we will go over the details of the different fields and types that ahve just been introduced in \texttt{DGBType}.
+			\subsubsection{Turns: speaker and addressee}
+				These fields are the most straightforward; indeed they just keep track of the turn ownership (who speaks and who listens at a given time). ``Speaker'' and ``Addressee'' fields are of type \texttt{Ind}, which can be seen as a subtype of \texttt{Entity}\footnote{type \texttt{e} of Montague grammars}. A simple way to implement that would be to give each participant a unique ID.
+			\subsubsection{Facts}
+				``Facts'' are assumptions held by the participants. These assumptions allow them to answer questions, to justify themselves, and possibly to start a conversation about a given subject. This structure is presented as a pair of partially ordered sets, a view that differs from \cite{ginzburg2012, ginzburg2017}, where ``Facts'' are seen as ``shared assumptions''. Indeed, conversational events like contradiction come from an asymmetry of belief between participants, and that is why we thought it would be beneficial to store two separate copies of the participants' respective beliefs.\\
+				
+				Each set of facts, one per participant, is thus a poset of ``propositions'' (type \texttt{Prop}). These propositions can be written in First-Order Logic, but also in other systems (like for instance MRS, cf. Section \ref{RMRS}, or TTR cf. Section \ref{DS_TTR})\footnote{we will finally opt for one of these last alternatives, because the use of type \texttt{Prop} in the field ``Pending'' forces us to have a richer representation that must include underspecification. So this choice is not driven by the nature of ``Facts'', but rather by our will to unify the types for propositions across the different fields, some of them -- like ``Pending'' -- being incremental.}. The partial order would be the implication relation (this choice will be justified in Section \ref{contradiction}).
+			\subsubsection{Questions}
+				The field ``Questions'' is also a partially ordered set of element of type \texttt{Question}. The order used in that case is a bit more unclear; however it has to account for a type of \textit{precedence} \cite{ginzburg2012}. This means that at a given point of the conversation, a question should be more topical than the others. We could say that it is basically the last question that has been set, but yet not always. This notion of ordering between questions is crucial to establish a notion of relevance in the Gricean terms \cite{grice1989}, as we will see in Section \ref{conversational_rules}.
+			\subsubsection{Moves}
+				The field Moves is a history of the speech acts that have been grounded. This field  has been introduced by Ginzburg (see for instance \cite{ginzburg2012, ginzburg2020}) and its content relates to situation semantics. Indeed, the objects of type \texttt{LocProp} that are listed in this field are of the form:
 				\begin{equation*}
-					\texttt{IllocProp} = \left[
+					\texttt{LocProp} = \left[
 					\begin{array}{l l l}
 					\mbox{Situation} &:& \texttt{Sit} \\
 					\mbox{Speaker} &:& \texttt{Ind} \\
 					\mbox{Addressee} &:& \texttt{Ind} \\
 					\mbox{R} &:& \texttt{SpeechAct} \\ 
-					\mbox{Content} &:& \texttt{SemRec} \\
+					\mbox{Content} &:& \texttt{Prop} \\
 					\mbox{Situation type} &:& R(\mbox{Speaker}, \mbox{Addressee}, \mbox{Content}) \\
 					\end{array}
 					\right].
 				\end{equation*}
-				The field named Situation type binds a certain utterance to a certain situation; this principle is in fact in the centre of austinian semantics. The type called \texttt{SpeechAct} is the supertype for illocutionary speech acts as defined by Searle : \texttt{Assert} (for ``Assertives''), \texttt{Direct} (for ``Directives''), \texttt{Com} (for ``Commissives''), \texttt{Expr} (for ``Expressives''), \texttt{Decl} (for ``Declarations''). We could imagine many subtypes for each of these illocutionary speech acts.
+				The field named ``Situation type'' binds a certain utterance to a certain situation; as we have seen this is the core idea of Austinean semantics. The type called \texttt{SpeechAct} can be seen as the supertype for illocutionary speech acts as defined in \cite{austin1975} : \texttt{Assert} (for ``Assertives''), \texttt{Direct} (for ``Directives''), \texttt{Com} (for ``Commissives''), \texttt{Expr} (for ``Expressives''), \texttt{Decl} (for ``Declarations''). But of course we could imagine many more precise subtypes for each of these illocutionary speech acts. We will use some of them in Section \ref{conversational_rules} too.
+			\subsubsection{Pending}
+				The field ``Pending'' is quite similar in its structure to the field ``Moves''. Indeed, we will see that utterances tend to be pushed first in the ``Pending'' field, before being moved to the ``Move'' field. The field ``Pending'' is indeed used to store the ungrounded utterances, which includes the forthcoming utterance. This last utterance is a bit particular because, for the sake of incrementality, it must be updated in a word-by-word basis. This also means that this last utterance is most of the time underspecified. This justifies the need for incremental representation of meaning and incremental parsing methods. These topics will be studied more in depth in the next section.
 				
 				% poesio : discourse situation
 
-			\subsubsection{The \texttt{SemRec} type}
-				The type of semantic objects is (\texttt{Lambda})\texttt{SemRec}. It is based on Minimal Recursion Semantics (MRS) \cite{copestake2005}. MRS is very attractive, because it models expressions of first order logic with generalized quantifiers, and allows for underspecification (scope or reference).
-				
-				Figure \ref{fig:tree_mrs} shows how FOL-GQ is translated into MRS decorated trees\footnote{the interpretation fucntion $\llbracket . \rrbracket^h$ turns a FOL expression into a tree and gives the root the label $h$} that capture scope informations. Scope ambiguity can be introduced by simply ``disconnecting'' the right branch of quantified nodes. Such a vacuous branch is called a \textit{hole}.\\
-				Since each node's position in the tree is encoded in its \textit{handles} (its own handle, also called \textit{label}, and the handles it points to), there is no need to keep the tree representation, and it becomes possible to pack all the nodes together in a record, as represented in Figure \ref{mrs_record}. Note that the record of this figure has three main fields :
-				\begin{itemize}
-					\item Rels sums up the informations available in a MRS tree structure. It is a bag of nodes, each node coming with a label and a predicate / binder that is applied to variables (bound or free) or to other relations (represented by their label).
-					\item Hook is used to combine properly two MRS structures and to deal with reference resolution. The local top of an expression is the predicate that has the widest scope.
-					\item Cons restricts the possible combinations (i.e. how to ``plug'' back in holes by equating handles)in the case of underspecified MRS. Each constraint is represented by a qeq relation between an ``upper'' argument handle h and a ``lower'' label l, connected by a chain of nodes.
-				\end{itemize}
-				
-
-
-
-
-			\subsubsection{The \texttt{Clause} type}
-				The field called Pending contains the clause that is about to be produced, and this field will be crucial for incremental modeling. The content of the Pending field is of type \texttt{Clause}, which is a rich type record inspired by HPSG's \textit{words} or \textit{phrases} (see \cite{sag2003}). It sums up all the linguistic features of the clause at stake, from graphemes to sememes.\\
-				\begin{equation*}
-					\texttt{Clause}
-					\left [
-					\begin{array}{l l l}
-					\mbox{Phon} &:& \texttt{Str} \\
-					\mbox{Syn} &:& \texttt{SynCat} \\
-					\mbox{Sem} &:& \texttt{LambdaSemRec} \\
-					\end{array}
-					\right ]
-				\end{equation*}
+			
 	\section{Dealing with incrementality}
 %	% poesio micro conversatrional events
 		In this section, we present the current approaches that tackle the problem of incremental semantic interpretation : Dynamic Syntax with TTR and Incremental Processing (DS-TTR IP) and Incremental Robust Minimal Recursion Semantics (iRMRS). Both tend to comply with a more abstract, high-level framework designed by \cite{schlangen2009} for general incremental systems.
 		\subsection{A general model for incremental processing}\label{iu_model}
-			A very abstract, general framework for incremental processing in dialogue has been developed by \cite{schlangen2009}. It is inspired by Young token passing architecture. This model is independent of the formalism used for syntactic/semantic modeling, and can has many applications in dialogue, from speech recognition to semantic interpretation.\\
-			
-			The key concept of this model is the concept of incremental unit (or IU). An IU refers to the smallest possible chunk of information that can be processed independently. IUs are of different types, from raw input (audio signal, character string...) to higher order structures (records as we will see later, or elements of first order logic...). In our case, IUs will basically the granularity of a word, so they will represent words or their syntactic/semantic counterparts. More generally, IUs carry three types of information:
-			\begin{itemize}
-				\item a confidence score: how sure is the system about the production of this IU?
-				\item a commitment flag: is it possible to revoke the IU (correction)?
-				\item a history: which module has processed the IU so far?
-			\end{itemize}
-			Furthermore, IUs are defined by the relations they may have with other IUs:
-			\begin{itemize}
-				\item horizontal relations: between IUs of the same linguistic level (semantic, syntactic...), \textit{i.e.} produced by the same module. This includes the \textit{successor} relation that keeps track of linear order in which the IUs have been produced (alternative path being possible). One can also think of other non-linear dependency constraints (modification, specification, $\theta$-roles...);
-				\item vertical relations: these are hierarchical relations, between IUs of different linguistic levels. This includes the \textit{grounded} relation, which links an higher order IUs to the lower order IUs that justify its production.
-			\end{itemize}
-			Note also that the third point concerns modules, which are processing units. A module consumes IUs; it consists of three elements:
-			\begin{itemize}
-				\item a left (input) buffer: where IU arrive before being processed;
-				\item a right (output) buffer: where IU exit after being processed;
-				\item a processor, that turns a bunch of input IUs to a bunch of output IUs
-			\end{itemize}
-			Since the system is not necessarily instantaneous, a processor may sometimes ``wait'' for more than one IU in the left buffer to produce a single output IU. It is thus a function from sets of IUs to sets of IUs, and not just a function from IUs to IUs. This is depicted in Figure \ref{fig:module_iu}\\
-			
-			\begin{figure}[h]
-				\centering
-				\begin{tabular}{|c|r|c|l|}
-					\hline
-					& Left buffer & Processor & Right buffer\\
-					$t_0$ & $\underline{\blacksquare}$ & & \\
-					$t_1$ & $\underline{\blacksquare \blacksquare}$ & $\square \square \mapsto \ocircle$ & $\CIRCLE$ \\
-					$t_2$ & $\underline{\blacksquare \blacksquare \blacksquare}$ &  $\square  \square \square \mapsto \triangle$ & $\otimes \blacktriangle$ \\
-					$t_5$ &
-					$\underline{\blacksquare} \blacksquare \blacksquare \blacksquare$ &
-					$\left | \begin{tabular}{c}
-						$\square \mapsto  \ocircle$ \\
-						$\square \mapsto \triangle$ \\
-					\end{tabular}\right.$
-					& $\blacktriangle < \begin{tabular}{c}
-					$\CIRCLE$ \\
-					$\blacktriangle$
-					\end{tabular}$ \\
-					\hline
-				\end{tabular}
-				\label{fig:module_iu}
-				\caption{Schematic of a module (incremental processing unit) with delayed, batch computation ($t_1$), revision ($t_2$), and production of alternatives ($t_3$)}
-			\end{figure}
-			
-			
-			When IUs flow through the system, they go from one module to another. Modules thus form a particular kind of graph. The edges of this graph allow IUs to circulate through modules, with several potential restrictions:
-			\begin{itemize}
-				\item directions: edges are oriented; they may or may not be bidirectional;
-				\item multimodality: edges can allows for multimodal input  (IUs of different types) or output;
-				\item filtering: edges may filter certain IUs depending on their syntactic/semantic characteristics
-			\end{itemize}
-			
-			The two approaches we will mention in the following section have been implemented within the Incremental Unit framework. Moreover, both of them rely on record types.
+			A very abstract, general framework for incremental processing in dialogue has been developed by \cite{schlangen2009}. It is inspired by \cite{young1989} token passing architecture. This model is independent of the formalism used for syntactic/semantic modeling, and has many applications in dialogue, from speech recognition to semantic interpretation. The key concepts of this model are \textit{incremental units} (or IUs) and \textit{modules}. Modules basically process incremental units.
+			\subsubsection{Incremental Units}
+				An IU refers to the smallest possible chunk of information that can be processed independently by the system. IUs are of different types, from raw input (audio signal, character string...) to higher order structures (records as we will see later, or elements of first order logic...). The segmentation of IUs can be temporal (fixed time window) or categorical (word, phoneme etc.) In our case, IUs will basically have the granularity of a word, so they will represent words or their syntactic/semantic counterparts. More generally, IUs carry three types of information:
+				\begin{itemize}
+					\item a confidence score: how sure is the system about the production of this IU?\vspace{-2mm}
+					\item a commitment flag: is it possible to revoke the IU (correction)?\vspace{-2mm}
+					\item a history: which module has processed the IU so far?
+				\end{itemize}
+				Besides this metadata, IUs are defined by the relations they may have with other IUs:
+				\begin{itemize}
+					\item horizontal relations: between IUs of the same linguistic level (semantic, syntactic...), \textit{i.e.} produced by the same module. This includes the \textit{successor} relation that keeps track of linear order in which the IUs have been produced (alternative paths being possible). One can also think of other non-linear dependency constraints (modification, specification, $\theta$-roles...); \vspace{-2mm}
+					\item vertical relations: these are hierarchical relations, between IUs of different linguistic levels. This includes most importantly the \textit{grounded} relation, which links an higher order IUs to the lower order IUs that justify its production.
+				\end{itemize}
+			\subsubsection{Modules}
+				Modules are processing units. A module consumes IUs and produces IUs; it consists of three elements:
+				\begin{itemize}
+					\item a left (input) buffer: where IU arrive before being processed;\vspace{-2mm}
+					\item a right (output) buffer: where IU exit after being processed; \vspace{-2mm}
+					\item a processor, that turns a bunch of input IUs to a bunch of output IUs
+				\end{itemize}
+				Since the system is not necessarily instantaneous, a processor may sometimes ``wait'' for more than one IU in the left buffer to produce a single output IU. It is thus a function from sets of IUs to sets of IUs, and not just a function from IUs to IUs. This is depicted in Figure \ref{fig:module_iu}\\
+				
+				\begin{figure}[h]
+					\centering
+					\begin{tabular}{|c|r|c|l|}
+						\hline
+						& Left buffer & Processor & Right buffer\\
+						$t_0$ & $\underline{\blacksquare}$ & & \\
+						$t_1$ & $\underline{\blacksquare \blacksquare}$ & $\square \square \mapsto \ocircle$ & $\CIRCLE$ \\
+						$t_2$ & $\underline{\blacksquare \blacksquare \blacksquare}$ &  $\square  \square \square \mapsto \triangle$ & $\otimes \blacktriangle$ \\
+						$t_5$ &
+						$\underline{\blacksquare} \blacksquare \blacksquare \blacksquare$ &
+						$\left | \begin{tabular}{c}
+							$\square \mapsto  \ocircle$ \\
+							$\square \mapsto \triangle$ \\
+						\end{tabular}\right.$
+						& $\blacktriangle < \begin{tabular}{c}
+						$\CIRCLE$ \\
+						$\blacktriangle$
+						\end{tabular}$ \\
+						\hline
+					\end{tabular}
+					\caption{Schematic of a module (incremental processing unit) with delayed, batch computation ($t_1$), revision ($t_2$), and production of alternatives ($t_3$)}
+					\label{fig:module_iu}
+				\end{figure}
+				
+				
+				When IUs flow through the system, they go from one module to another. Modules thus form a particular kind of graph. The edges of this graph allow IUs to circulate through modules, with several potential restrictions:
+				\begin{itemize}
+					\item directions: edges are oriented; they may or may not be bidirectional;\vspace{-2mm}
+					\item multimodality: edges can allows for multimodal input  (IUs of different types) or output;\vspace{-2mm}
+					\item filtering: edges may filter certain IUs depending on their syntactic/semantic characteristics
+				\end{itemize}
+				
+				The two approaches we will mention in the following section have been implemented within the Incremental Unit framework. Moreover, both of them rely on record types.
 			
 			
 			
@@ -511,15 +509,15 @@
 		
 
 		
-		\subsection{DS-TTR with incremental processing}
+		\subsection{DS-TTR with incremental processing} \label{DS_TTR}
 			Dynamic syntax \cite{kempson2001} is a model that incorporates syntactic and semantic parsing. Indeed, DS parsing generates the syntactic tree and decorates it with typed $\lambda$-terms, in one pass. In DS-TTR \cite{hough2011,hough2015}, the $\lambda$-terms have enriched types:
 			\begin{itemize}
-				\item a record $r$ is a term in DS-TTR;
+				\item a record $r$ is a term in DS-TTR;\vspace{-2mm}
 				\item a function from a record to a term $t$ of DS-TTR ($\lambda r. t$) is also a term of DS-TTR.
 			\end{itemize}
 			Besides, DS relies on a lexicon that is composed of actions. These actions are formulated as IF-THEN-ELSE statements that enrich monotonically the content of the semantic tree (completion of an existing node or creation of a new node). Actions are of two kinds:
 			\begin{itemize}
-				\item lexical actions (triggered when a new word is uttered);
+				\item lexical actions (triggered when a new word is uttered); \vspace{-2mm}
 				\item computational actions (that can be used to enrich the semantic tree depending on the words that are already present).
 			\end{itemize}
 			A DS parse is then a series of lexical actions with possibly intermediate computational actions:
@@ -533,7 +531,7 @@
 			\subsubsection{Predications}
 				Predications are handle-predicate pairs. Handles (in that situation they are also called \textit{labels}) are indices that allow to keep track of the original tree structure on which the MRS has been built\footnote{thus this structure is obtained after syntactic parsing}. They denote node addresses in the original tree; and if two EPs have the same handle, they must be conjuncted. Predicates can have two kinds of possible arguments:
 				\begin{itemize}
-					\item ordinary variables like x, y, z... modeled as a list of elements of primary type \texttt{Var};
+					\item ordinary variables like x, y, z... modeled as a list of elements of primary type \texttt{Var}; \vspace{-2mm}
 					\item handles that refer to the EP's daughters in the underlying tree. Handles seen as arguments (also called \textit{holes}) thus reify the branches of the tree and flatten the structure (predicates no longer apply to other predicates...). Holes are naturally modeled as a list of handles (of type \texttt{Handle}).
 				\end{itemize}
 				In so doing, predicates can be represented as elements of type \texttt{Pred}, see Figure \ref{fig:mrs_types}.
@@ -584,17 +582,31 @@
 			\subsubsection{Constraints, (local) top handle}
 				Conversely, underspecification can be resolved by adding constraints to the structure. Constraints are separate equations between handles; basically, these equations allow:
 				\begin{itemize}
-					\item to ``reconnect'' the underlying tree, when a vacuous hole is equated with a label;
-					\item to conjunct daughters, when two labels are equated;
+					\item to ``reconnect'' the underlying tree, when a vacuous hole is equated with a label; \vspace{-2mm}
+					\item to conjunct daughters, when two labels are equated; \vspace{-2mm}
 					\item equating the top handle with a label.
 				\end{itemize}
 				Constraints are added incrementally while parsing a sentence (and thus merging constituents). However in that case, a special, more relaxed kind of equality is used: equality modulo quantifier ($=_{qeq}$). A hole is qeq to a label ($h=_{qeq}l$) iff:
 				\begin{itemize}
-					\item they are equal ($h = l$)
-					\item or the hole refers to the label of a quantifier and that quantifier's body contains another hole $h'$ such that $h'=_{qeq} l$
+					\item they are equal ($h = l$); \vspace{-2mm}
+					\item or the hole refers to the label of a quantifier and that quantifier's body contains another hole $h'$ such that $h'=_{qeq} l$.
 				\end{itemize}
 				In other words, a right traversal of the tree from the hole to the label shall only cross quantifier nodes. The relaxed equality allows to keep scopal ambiguity when necessary.\\
 				Parsing involves constraints, but also involves headedness, like in traditional syntactic theories including HPSG. In RMRS, the notion of headedness is embodied by the local top feature which is the topmost label that is not a quantifier label. When two constituents are merged, the local top of the head is preserved (cf. the three syntactic rules of Figure). 
+				
+				
+				
+				
+			%\subsubsection{The \texttt{SemRec} type}
+		%	The type of semantic objects is (\texttt{Lambda})\texttt{SemRec}. It is based on Minimal Recursion Semantics (MRS) \cite{copestake2005}. MRS is very attractive, because it models expressions of first order logic with generalized quantifiers, and allows for underspecification (scope or reference).
+			
+		%	Figure \ref{fig:tree_mrs} shows how FOL-GQ is translated into MRS decorated trees\footnote{the interpretation fucntion $\llbracket . \rrbracket^h$ turns a FOL expression into a tree and gives the root the label $h$} that capture scope informations. Scope ambiguity can be introduced by simply ``disconnecting'' the right branch of quantified nodes. Such a vacuous branch is called a \textit{hole}.\\
+		%	Since each node's position in the tree is encoded in its \textit{handles} (its own handle, also called \textit{label}, and the handles it points to), there is no need to keep the tree representation, and it becomes possible to pack all the nodes together in a record, as represented in Figure \ref{mrs_record}. Note that the record of this figure has three main fields :
+		%	\begin{itemize}
+		%		\item Rels sums up the informations available in a MRS tree structure. It is a bag of nodes, each node coming with a label and a predicate / binder that is applied to variables (bound or free) or to other relations (represented by their label).
+		%		\item Hook is used to combine properly two MRS structures and to deal with reference resolution. The local top of an expression is the predicate that has the widest scope.
+		%		\item Cons restricts the possible combinations (i.e. how to ``plug'' back in holes by equating handles)in the case of underspecified MRS. Each constraint is represented by a qeq relation between an ``upper'' argument handle h and a ``lower'' label l, connected by a chain of nodes.
+		%	\end{itemize}
 				
 	\section{Updating DGBs} \label{conversational_rules}
 		Models such as Dynamic Syntax and Minimal Recursion Semantics build semantic content monotonically and incrementally. The question is then how to use this content to update the current dialogue state in a relevant way. In this section we devise higher-level operations that model sub-sentential phenomena that are typical of dialogue: acknowledgement, clarification request, repair, cooperation, ellipsis.
@@ -607,11 +619,11 @@
 			\end{equation*}
 			Where $\boxed{\wedge}$ is the asymmetric merge operation that produces a record type by performing the following updates:
 			\begin{itemize}
-				\item copy the labels that are only in R;
-				\item copy the labels that are only in Q;
-				\item for all label that is both in R and Q:
+				\item copy the labels that are only in R;\vspace{-2mm}
+				\item copy the labels that are only in Q; \vspace{-2mm}
+				\item for all label that is both in R and Q: \vspace{-2mm}
 				\begin{itemize}
-					\item if the label is typed with a simple type, keep the type specified in Q;
+					\item if the label is typed with a simple type, keep the type specified in Q;\vspace{-1mm}
 					\item if the label is typed with a record type, take the asymmetric merge of R's version and Q's version.
 				\end{itemize}
 			\end{itemize}
@@ -672,7 +684,7 @@
 			\end{recenv}
 			\end{recenv}
 			\end{equation*}
-		\subsection{Contradiction}
+		\subsection{Contradiction} \label{contradiction}
 			\begin{equation*}
 			\begin{recenv}
 			Pre  &=& \begin{recenv}
